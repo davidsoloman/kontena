@@ -36,9 +36,11 @@ class GridServiceRemoveWorker
   end
 
   # @param [HostNode] node
+  # @param [GridService] service
+  # @param [Integer] instance_number
   # @return [Docker::ServiceTerminator]
-  def terminate_from_node(node, service_name)
+  def terminate_from_node(node, service, instance_number)
     terminator = Docker::ServiceTerminator.new(node)
-    terminator.terminate_service_instance(service_name, {lb: true})
+    terminator.terminate_service_instance(service, instance_number, {lb: true})
   end
 end
