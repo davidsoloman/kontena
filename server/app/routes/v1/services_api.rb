@@ -36,7 +36,7 @@ module V1
       end
 
       def build_scope(service, r)
-        scope = @grid_service.container_logs
+        scope = @grid_service.container_logs.includes(:grid_service, :host_node)
 
         scope = scope.where(name: r['container']) unless r['container'].nil?
         scope = scope.where(:$text => {:$search => r['search']}) unless r['search'].nil?
@@ -68,19 +68,15 @@ module V1
           r.route 'service_envs'
         end
 
+        # /v1/services/:grid_name/:stack_name/:service_name/container_logs
+        r.on 'container_logs' do
+          r.route 'service_container_logs'
+        end
+
         # GET /v1/services/:grid_name/:stack_name/:service_name
         r.get do
           r.is do
             render('grid_services/show')
-          end
-
-          r.on 'container_logs' do
-            scope = @grid_service.container_logs
-
-            scope = scope.where(name: r['container']) unless r['container'].nil?
-            scope = scope.where(:$text => {:$search => r['search']}) unless r['search'].nil?
-
-            render_container_logs(r, scope)
           end
         end
 
