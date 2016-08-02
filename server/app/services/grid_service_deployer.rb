@@ -14,7 +14,8 @@ class GridServiceDeployer
   attr_reader :grid_service_deploy,
               :grid_service,
               :nodes,
-              :scheduler
+              :scheduler,
+              :ping_subscription
 
   ##
   # @param [#find_node] strategy
