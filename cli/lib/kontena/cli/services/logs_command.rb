@@ -7,7 +7,6 @@ module Kontena::Cli::Services
     include Kontena::Cli::GridOptions
     include Kontena::Cli::Helpers::LogHelper
     include ServicesHelper
-    include LogHelper
 
     parameter "NAME", "Service name"
     option ["-i", "--instance"], "INSTANCE", "Show only given instance specific logs"

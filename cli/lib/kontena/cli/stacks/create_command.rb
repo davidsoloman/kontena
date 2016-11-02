@@ -19,7 +19,9 @@ module Kontena::Cli::Stacks
     end
 
     def create_stack(token, stack)
-      client(token).post("grids/#{current_grid}/stacks", stack)
+      spinner "Creating stack #{pastel.cyan(stack)} " do
+        p client(token).post("grids/#{current_grid}/stacks", stack)
+      end
     end
   end
 end

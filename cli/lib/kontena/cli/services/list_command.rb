@@ -27,7 +27,7 @@ module Kontena::Cli::Services
         health = health_status(service)
         vars = [
           health_status_icon(health),
-          "#{service['name']}",
+          "#{service.dig('stack', 'id')}/#{service['name']}",
           instances,
           stateful,
           service['state'],

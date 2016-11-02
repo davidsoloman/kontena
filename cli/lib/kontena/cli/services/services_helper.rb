@@ -213,46 +213,6 @@ module Kontena
           end
         end
 
-        def show_services(services)
-          titles = ['NAME', 'INSTANCES', 'STATEFUL', 'STATE', 'EXPOSED PORTS']
-          puts "%-60s %-10s %-8s %-10s %-50s" % titles
-          services.each do |service|
-            stateful = service['stateful'] ? 'yes' : 'no'
-            running = service['instances']['running']
-            desired = service['container_count']
-
-            ports = service['ports'].map{|p|
-              "#{p['ip']}:#{p['node_port']}->#{p['container_port']}/#{p['protocol']}"
-            }.join(", ")
-            if service['health_status']
-              healthy = service.dig('health_status', 'healthy')
-              total = service.dig('health_status', 'total')
-              health = :green
-              icon = '●'.freeze
-              if healthy == 0
-                icon = '○'.freeze
-                health = :red
-              elsif healthy > 0 && healthy < total
-                icon = '◍'.freeze
-                health = :yellow
-              end
-            else
-              icon = '◌'.freeze
-              health = :default
-            end
-
-            instances = "#{running} / #{desired}"
-            vars = [
-              "#{icon.colorize(health)} #{service.dig('stack', 'id')}/#{service['name']}",
-              instances,
-              stateful,
-              service['state'],
-              ports
-            ]
-            puts "%-74.74s %-10.10s %-8s %-10s %-50s" % vars
-          end
-        end
-
         # @param [String] token
         # @param [String] service_id
         # @param [Hash] data

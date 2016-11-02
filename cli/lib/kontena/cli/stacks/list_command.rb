@@ -33,18 +33,19 @@ module Kontena::Cli::Stacks
           color = :green
         else
           icon = '⊝'.freeze
-          color = :default
+          color = :dim
         end
 
         vars = [
-          "#{icon.colorize(color)} #{stack['name']}",
+          icon.colorize(color),
+          "#{stack['name']}",
           "v#{stack['version']}",
           stack['services'].size,
           stack['state'],
           ports.join(", ")
         ]
 
-        puts "%-74s %-10s %-10s %-10s %-50s" % vars
+        puts "%s %-58s %-10s %-10s %-10s %-50s" % vars
       end
     end
 
