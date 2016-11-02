@@ -25,7 +25,7 @@ describe '/v1/stacks/:id/container_logs' do
   end
 
   let(:request_headers) do
-    { 'HTTP_AUTHORIZATION' => "Bearer #{valid_token.token}" }
+    { 'HTTP_AUTHORIZATION' => "Bearer #{valid_token.token_plain}" }
   end
 
   let(:test_app) do
