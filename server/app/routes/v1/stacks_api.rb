@@ -4,6 +4,7 @@ module V1
     include CurrentUser
     include RequestHelpers
     include Auditor
+    include LogsHelpers
 
     plugin :multi_route
     plugin :streaming
