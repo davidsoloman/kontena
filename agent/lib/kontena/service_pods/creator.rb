@@ -162,7 +162,7 @@ module Kontena
       # @return [Boolean]
       def container_outdated?(service_container)
         updated_at = DateTime.parse(service_pod.updated_at)
-        created = DateTime.parse(service_container.config['Created']) rescue nil
+        created = DateTime.parse(service_container.info['Created']) rescue nil
         return true if created.nil?
         return true if created < updated_at
 
@@ -176,7 +176,7 @@ module Kontena
         image = Docker::Image.get(image_name) rescue nil
         return true unless image
 
-        container_created = DateTime.parse(service_container.config['Created']) rescue nil
+        container_created = DateTime.parse(service_container.info['Created']) rescue nil
         image_created = DateTime.parse(image.config['Created'])
         return true if image_created > container_created
 

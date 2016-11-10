@@ -21,7 +21,7 @@ module Kontena
       def perform
         service_container = get_container(self.service_id, self.instance_number)
         if service_container.running?
-          info "stopping service: #{self.service_name}"
+          info "stopping service: #{service_container.name}"
           service_container.stop('timeout' => 10)
         end
 

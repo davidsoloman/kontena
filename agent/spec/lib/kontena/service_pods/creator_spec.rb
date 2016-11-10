@@ -46,43 +46,47 @@ describe Kontena::ServicePods::Creator do
 
   describe '#service_uptodate?' do
     it 'returns false if image name changes' do
-      service_container = spy(:service_container, info: {
-        'Config' => {
-          'Image' => 'foo/bar:latest'
-        }
+      service_container = spy(:service_container, config: {
+        'Image' => 'foo/bar:latest'
       })
       expect(subject.service_uptodate?(service_container)).to be_falsey
     end
 
     it 'returns false if image does not exist' do
-      service_container = spy(:service_container, info: {
-        'Created' => Time.now.utc.to_s,
-        'Config' => {
+      service_container = spy(:service_container,
+        info: {
+          'Created' => Time.now.utc.to_s
+        },
+        config: {
           'Image' => service_pod.image_name
         }
-      })
+      )
       allow(Docker::Image).to receive(:get).and_return(nil)
       expect(subject.service_uptodate?(service_container)).to be_falsey
     end
 
     it 'returns false if container created_at is less than service_pod updated_at' do
-      service_container = spy(:service_container, info: {
-        'Created' => (Time.now.utc - 60).to_s,
-        'Config' => {
+      service_container = spy(:service_container,
+        info: {
+          'Created' => (Time.now.utc - 60).to_s
+        },
+        config: {
           'Image' => service_pod.image_name
         }
-      })
+      )
       expect(subject.service_uptodate?(service_container)).to be_falsey
     end
 
     it 'returns true if container & image are uptodate' do
-      service_container = spy(:service_container, json: {
-        'Created' => (Time.now.utc + 2).to_s,
-        'Config' => {
+      service_container = spy(:service_container,
+        info: {
+          'Created' => (Time.now.utc + 2).to_s
+        },
+        config: {
           'Image' => service_pod.image_name
         }
-      })
-      allow(Docker::Image).to receive(:get).and_return(spy(:image, info: {
+      )
+      allow(Docker::Image).to receive(:get).and_return(spy(:image, config: {
         'Created' => (Time.now.utc + 1).to_s
       }))
       expect(subject.service_uptodate?(service_container)).to be_truthy
